@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const cors = require('cors'); // Import the cors middleware
 const ytdl = require('ytdl-core');
 const axios = require('axios');
