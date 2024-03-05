@@ -10,7 +10,7 @@ app.use(cors()); // Use the cors middleware
 
 app.use(express.json());
 
-const agent = ytdl.createProxyAgent({ uri: "http://91.148.233.54:8081" });
+const agent = ytdl.createProxyAgent({ uri: "http://odkkfnhr:jt7tnf7dvwcm@38.154.227.167:5868" });
 
 
 app.post('/video-info', async (req, res) => {
