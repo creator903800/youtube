@@ -9,11 +9,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); // Use the cors middleware
 
 app.use(express.json());
+const agent = ytdl.createProxyAgent({ uri: "my.proxy.server" }, [{ name: "cookie", value: "COOKIE_HERE" }]);
+
 
 app.post('/video-info', async (req, res) => {
   const { videoUrl } = req.body;
   try {
-    const info = await ytdl.getInfo(videoUrl);
+    const info = await ytdl.getInfo(videoUrl, { agent });
     console.log(info)
     res.json({ success: true, info });
   } catch (error) {
@@ -53,7 +55,7 @@ app.post('/video-info', async (req, res) => {
 app.post('/download-video', async (req, res) => {
   try {
     const { videoUrl, qualityLabel, contentLength } = req.body;
-    const info = await ytdl.getInfo(videoUrl);
+    const info = await ytdl.getInfo(videoUrl, { agent });
     const format = info.formats.find(format => format.qualityLabel === qualityLabel && format.contentLength === contentLength);
     if (!format) {
       throw new Error(`Requested quality label (${qualityLabel}) and container (${contentLength}) are not available for this video.`);
