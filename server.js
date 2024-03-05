@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors'); // Import the cors middleware
-const ytdl = require('ytdl-core');
+const ytdl = require("@distube/ytdl-core");
 const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
