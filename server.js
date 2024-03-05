@@ -34,7 +34,7 @@ app.post('/download-video', async (req, res) => {
     if (!format) {
       throw new Error(`Requested quality label (${qualityLabel}) and container (${contentLength}) are not available for this video.`);
     }
-    const videoID = ytdl.getVideoID(videoUrl);
+    const videoID = ytdl.getVideoID(videoUrl,{ agent });
     const filename = `${videoID}.${format.container}`;
     res.header('Content-Disposition', `attachment; filename="${filename}"`);
     ytdl(videoUrl, { format: format }).pipe(res);
