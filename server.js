@@ -10,13 +10,13 @@ app.use(cors()); // Use the cors middleware
 
 app.use(express.json());
 
-const agent = ytdl.createProxyAgent({ uri: "http://odkkfnhr:jt7tnf7dvwcm@38.154.227.167:5868" });
+// const agent = ytdl.createProxyAgent({ uri: "http://odkkfnhr:jt7tnf7dvwcm@38.154.227.167:5868" });
 
 
 app.post('/video-info', async (req, res) => {
   const { videoUrl } = req.body;
   try {
-    const info = await ytdl.getInfo(videoUrl,{ agent });
+    const info = await ytdl.getInfo(videoUrl);
     console.log(info)
     res.json({ success: true, info });
   } catch (error) {
@@ -29,12 +29,12 @@ app.post('/video-info', async (req, res) => {
 app.post('/download-video', async (req, res) => {
   try {
     const { videoUrl, qualityLabel, contentLength } = req.body;
-    const info = await ytdl.getInfo(videoUrl,{ agent });
+    const info = await ytdl.getInfo(videoUrl);
     const format = info.formats.find(format => format.qualityLabel === qualityLabel && format.contentLength === contentLength);
     if (!format) {
       throw new Error(`Requested quality label (${qualityLabel}) and container (${contentLength}) are not available for this video.`);
     }
-    const videoID = ytdl.getVideoID(videoUrl,{ agent });
+    const videoID = ytdl.getVideoID(videoUrl);
     const filename = `${videoID}.${format.container}`;
     res.header('Content-Disposition', `attachment; filename="${filename}"`);
     ytdl(videoUrl, { format: format }).pipe(res);
